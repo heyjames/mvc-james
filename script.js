@@ -75,6 +75,62 @@ class View {
 
     return element;
   }
+
+  get _todoInputText() {
+    return this.input.value;
+  }
+
+  _resetTodoInputText() {
+    this.input.value = '';
+  }
+
+  displayTodos(todos) {
+    // Remove all child elements (todo items) of todos from ul element
+    while (this.todoList.firstChild) {
+      this.todoList.removeChild(this.todoList.firstChild);
+    }
+
+    // Handle when there are 0 child elements (todo items)
+    if (todos.length === 0) {
+      const p = this.createElement('p');
+      p.textContent = 'There are no items';
+      this.todoList.append(p);
+    } else {
+      todos.forEach(todo => {
+        const li = this.createElement('li');
+        li.id = todo.id;
+        
+        const inputCheckbox = this.createElement('input');
+        inputCheckbox.type = 'checkbox';
+        inputCheckbox.checked = todo.complete;
+        
+        const span = this.createElement('span');
+        span.contentEditable = true;
+        
+        if (todo.complete) {
+          const strikeout = this.createElement('s');
+          strikeout.textContent = todo.text;
+
+          span.append(strikeout);
+        } else {
+          span.textContent = todo.text;
+        }
+  
+        const deleteButton = this.createElement('button', 'delete');
+        deleteButton.textContent = 'Delete';
+
+        li.append(inputCheckbox, span, deleteButton);
+        this.todoList.append(li);
+      });
+    }
+
+  }
+
+  // Type app.view.testTodo() in console
+  testTodo() {
+    console.log("Testing...");
+    console.log(todos);
+  }
 }
 
 class Controller {
