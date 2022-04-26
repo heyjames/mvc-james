@@ -149,8 +149,8 @@ class View {
 
       // If the input field has string, send it as argument
       // to the handler function.
-      if (this._todoText) {
-        handler(this._todoText);
+      if (this._todoInputText) {
+        handler(this._todoInputText);
         this._resetTodoInputText();
       }
     });
