@@ -125,7 +125,39 @@ class View {
         this.todoList.append(li);
       });
     }
+  }
 
+  bindAddTodo(handler) {
+    this.form.addEventListener('submit', event => {
+      event.preventDefault();
+
+      // If the input field has string, send it as argument
+      // to the handler function.
+      if (this._todoText) {
+        handler(this._todoText);
+        this._resetTodoInputText();
+      }
+    });
+  }
+
+  bindDeleteTodo(handler) {
+    this.todoList.addEventListener('click', event => {
+      if (event.target.className = 'delete') {
+        const id = parseInt(event.target.parentElement.id);
+
+        handler(id);
+      }
+    });
+  }
+
+  bindToggleTodo(handler) {
+    this.todoList.addEventListener('change', event => {
+      if (event.target.type === 'checkbox') {
+        const id = parseInt(event.target.parentElement.id);
+
+        handler(id);
+      }
+    });
   }
 
   // Type app.view.testTodo() in console
