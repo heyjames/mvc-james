@@ -24,18 +24,20 @@ class Model {
   }
 
   editTodo(id, text) {
-    this.todos.map(todo => (todo.id === id) ? todo.text = text : todo);
+    this.todos = this.todos.map(todo => (todo.id === id) ? todo.text = text : todo);
   }
 
   toggleTodo(id) {
-    this.todos.map(todo => (todo.id === id) ? todo.complete = !todo.complete : todo)
+    this.todos = this.todos.map(todo => (todo.id === id) ? todo.complete = !todo.complete : todo)
   }
 }
 
 /**
- * Neither the controller nor the model should know anything about the DOM, 
+ * "Neither the controller nor the model should know anything about the DOM, 
  * HTML elements, CSS, or any of that. Anything relating to it should be in the 
- * view.
+ * view."
+ * 
+ * Source: https://www.taniarascia.com/javascript-mvc-todo-app/
  */
 class View {
   constructor() {
