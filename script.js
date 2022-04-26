@@ -140,6 +140,22 @@ class Controller {
     this.model = model;
     this.view = view;
   }
+
+  handleAddTodo(text) {
+    this.model.addTodo(text);
+  }
+
+  handleEditTodo(id, text) {
+    this.model.editTodo(id, text);
+  }
+
+  handleDeleteTodo(id) {
+    this.model.deleteTodo(id);
+  }
+
+  handleToggleTodo(id) {
+    this.model.toggleTodo(id);
+  }
 }
 
 const app = new Controller(new Model(), new View());
