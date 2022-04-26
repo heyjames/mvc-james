@@ -17,18 +17,30 @@ class Model {
     };
 
     this.todos.push(todo);
+
+    this.onTodoListChanged(this.todos);
   }
 
   deleteTodo(id) {
     this.todos = this.todos.filter(todo => todo.id !== id);
+
+    this.onTodoListChanged(this.todos);
   }
 
   editTodo(id, text) {
     this.todos = this.todos.map(todo => (todo.id === id) ? todo.text = text : todo);
+
+    this.onTodoListChanged(this.todos);
   }
 
   toggleTodo(id) {
     this.todos = this.todos.map(todo => (todo.id === id) ? todo.complete = !todo.complete : todo)
+
+    this.onTodoListChanged(this.todos);
+  }
+
+  bindTodoListChanged(callback) {
+    this.onTodoListChanged = callback;
   }
 }
 
@@ -171,6 +183,19 @@ class Controller {
   constructor(model, view) {
     this.model = model;
     this.view = view;
+
+    this.view.bindAddTodo(this.handleAddTodo);
+    // this.view.bindEditTodo(handleEditTodo);
+    this.view.bindDeleteTodo(this.handleDeleteTodo);
+    this.view.bindToggleTodo(this.handleToggleTodo);
+    this.model.bindTodoListChanged(this.onTodoListChanged);
+
+    // Display initial todos
+    this.onTodoListChanged(this.model.todos);
+  }
+
+  onTodoListChanged = (todos) => {
+    this.view.displayTodos(todos);
   }
 
   handleAddTodo = (text) => {
