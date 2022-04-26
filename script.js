@@ -28,13 +28,17 @@ class Model {
   }
 
   editTodo(id, text) {
-    this.todos = this.todos.map(todo => (todo.id === id) ? todo.text = text : todo);
+    this.todos = this.todos.map(todo => {
+      return (todo.id === id) ? { ...todo, text: text } : todo
+    });
 
     this.onTodoListChanged(this.todos);
   }
 
   toggleTodo(id) {
-    this.todos = this.todos.map(todo => (todo.id === id) ? todo.complete = !todo.complete : todo)
+    this.todos = this.todos.map(todo => {
+      return (todo.id === id) ? { ...todo, complete: !todo.complete } : todo
+    });
 
     this.onTodoListChanged(this.todos);
   }
@@ -154,7 +158,7 @@ class View {
 
   bindDeleteTodo(handler) {
     this.todoList.addEventListener('click', event => {
-      if (event.target.className = 'delete') {
+      if (event.target.className === 'delete') {
         const id = parseInt(event.target.parentElement.id);
 
         handler(id);
