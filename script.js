@@ -32,8 +32,48 @@ class Model {
   }
 }
 
+/**
+ * Neither the controller nor the model should know anything about the DOM, 
+ * HTML elements, CSS, or any of that. Anything relating to it should be in the 
+ * view.
+ */
 class View {
-  constructor() {}
+  constructor() {
+    this.app = this.getElement('#root');
+    
+    this.title = this.createElement('h1');
+    this.title.textContent = 'Todos';
+
+    this.form = this.createElement('form');
+
+    this.input = this.createElement('input');
+    this.input.type = text;
+    this.input.placeholder = 'Add todo';
+    this.input.name = 'todo';
+
+    this.submitButton = this.createElement('submitButton');
+    this.submitButton.textContent = 'Submit';
+
+    this.todoList = this.createElement('ul', 'todo-list');
+
+    this.form.append(this.input, this.submitButton);
+  }
+
+  createElement(tag, className) {
+    const element = document.createElement(tag);
+
+    if (className) {
+      element.classList.add(className);
+    }
+
+    return element;
+  }
+
+  getElement(selector) {
+    const element = document.querySelector(selector);
+
+    return element;
+  }
 }
 
 class Controller {
