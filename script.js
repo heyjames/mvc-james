@@ -47,16 +47,17 @@ class View {
     this.form = this.createElement('form');
 
     this.input = this.createElement('input');
-    this.input.type = text;
+    this.input.type = 'text';
     this.input.placeholder = 'Add todo';
     this.input.name = 'todo';
 
-    this.submitButton = this.createElement('submitButton');
+    this.submitButton = this.createElement('button');
     this.submitButton.textContent = 'Submit';
 
     this.todoList = this.createElement('ul', 'todo-list');
 
     this.form.append(this.input, this.submitButton);
+    this.app.append(this.title, this.form, this.todoList);
   }
 
   createElement(tag, className) {
