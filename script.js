@@ -173,19 +173,19 @@ class Controller {
     this.view = view;
   }
 
-  handleAddTodo(text) {
+  handleAddTodo = (text) => {
     this.model.addTodo(text);
   }
 
-  handleEditTodo(id, text) {
+  handleEditTodo = (id, text) => {
     this.model.editTodo(id, text);
   }
 
-  handleDeleteTodo(id) {
+  handleDeleteTodo = (id) => {
     this.model.deleteTodo(id);
   }
 
-  handleToggleTodo(id) {
+  handleToggleTodo = (id) => {
     this.model.toggleTodo(id);
   }
 }
