@@ -76,6 +76,25 @@ class View {
 
     this.form.append(this.input, this.submitButton);
     this.app.append(this.title, this.form, this.todoList);
+
+    this._temporaryTodoText;
+    this._initLocalListeners();
+  }
+
+  get _todoInputText() {
+    return this.input.value;
+  }
+
+  _resetTodoInputText() {
+    this.input.value = '';
+  }
+
+  _initLocalListeners() {
+    this.todoList.addEventListener('input', event => {
+      if (event.target.className === 'editable') {
+        this._temporaryTodoText = event.target.innerText;
+      }
+    });
   }
 
   createElement(tag, className) {
@@ -92,14 +111,6 @@ class View {
     const element = document.querySelector(selector);
 
     return element;
-  }
-
-  get _todoInputText() {
-    return this.input.value;
-  }
-
-  _resetTodoInputText() {
-    this.input.value = '';
   }
 
   displayTodos(todos) {
@@ -124,6 +135,7 @@ class View {
         
         const span = this.createElement('span');
         span.contentEditable = true;
+        span.classList.add('editable');
         
         if (todo.complete) {
           const strikeout = this.createElement('s');
@@ -166,6 +178,17 @@ class View {
     });
   }
 
+  bindEditTodo(handler) {
+    this.todoList.addEventListener('focusout', event => {
+      if (this._temporaryTodoText) {
+        const id = parseInt(event.target.parentElement.id);
+
+        handler(id, this._temporaryTodoText);
+        this._temporaryTodoText = '';
+      }
+    });
+  }
+
   bindToggleTodo(handler) {
     this.todoList.addEventListener('change', event => {
       if (event.target.type === 'checkbox') {
@@ -189,7 +212,7 @@ class Controller {
     this.view = view;
 
     this.view.bindAddTodo(this.handleAddTodo);
-    // this.view.bindEditTodo(handleEditTodo);
+    this.view.bindEditTodo(this.handleEditTodo);
     this.view.bindDeleteTodo(this.handleDeleteTodo);
     this.view.bindToggleTodo(this.handleToggleTodo);
     this.model.bindTodoListChanged(this.onTodoListChanged);
